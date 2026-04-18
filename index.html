@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motoboy Pro Turbo • Nível Absurdo</title>
+  <meta name="theme-color" content="#081225" />
+  <style>
+    :root{
+      --bg:#06101f;
+      --bg2:#09152b;
+      --card:#0f172a;
+      --card2:#111c33;
+      --line:#23314f;
+      --text:#eef2ff;
+      --muted:#a6b2d1;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --blue:#38bdf8;
+      --violet:#8b5cf6;
+      --shadow:0 18px 40px rgba(0,0,0,.35);
+      --r:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, #0e224a 0%, var(--bg) 38%, #030712 100%);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .shell{max-width:1240px;margin:0 auto;padding:16px 14px 64px}
+    .topbar{
+      position:sticky;top:0;z-index:30;
+      backdrop-filter: blur(14px);
+      background:rgba(3,7,18,.78);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .topbar-inner{max-width:1240px;margin:0 auto;padding:14px;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+    .brand h1{margin:0;font-size:clamp(1.35rem,4vw,2rem)}
+    .brand p{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+    .row{display:grid;gap:14px}
+    .hero{grid-template-columns:1.5fr .9fr}
+    .grid-2{grid-template-columns:1fr 1fr}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .card{
+      background:linear-gradient(180deg, rgba(15,23,42,.96), rgba(9,21,43,.96));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .section-title{margin:0 0 14px;font-size:1.2rem}
+    .muted{color:var(--muted)}
+    .big{font-size:clamp(1.7rem,6vw,2.8rem);font-weight:800;line-height:1.05;margin-top:4px}
+    .subbig{font-size:1.25rem;font-weight:700}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+    .stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:16px}
+    .stat span{display:block;color:var(--muted);font-size:.9rem;margin-bottom:8px}
+    .pillbar{display:flex;gap:10px;flex-wrap:wrap}
+    .pill, button, .button-file{
+      appearance:none;border:0;cursor:pointer;
+      border-radius:16px;padding:14px 16px;font-weight:800;font-size:1rem;
+      color:var(--text);
+      background:#172445;border:1px solid rgba(255,255,255,.08);
+      transition:transform .12s ease,opacity .2s ease, border-color .2s ease;
+      text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:52px;
+    }
+    .pill:hover, button:hover, .button-file:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.18)}
+    .primary{background:linear-gradient(90deg,var(--blue),var(--violet));color:white}
+    .success{background:linear-gradient(90deg,#16a34a,#22c55e)}
+    .warn{background:linear-gradient(90deg,#d97706,#f59e0b)}
+    .danger{background:linear-gradient(90deg,#dc2626,#ef4444)}
+    form{display:grid;gap:12px}
+    label{display:grid;gap:8px;font-weight:700;color:#d9e4ff}
+    input,select,textarea{
+      width:100%;min-width:0;border-radius:16px;border:1px solid rgba(255,255,255,.08);
+      background:#081122;color:var(--text);padding:15px 14px;font-size:16px;outline:none;
+      min-height:52px;
+    }
+    textarea{min-height:98px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:rgba(56,189,248,.7);box-shadow:0 0 0 3px rgba(56,189,248,.14)}
+    .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-size:.85rem;font-weight:800}
+    .b-good{background:rgba(34,197,94,.14);color:#bbf7d0;border:1px solid rgba(34,197,94,.22)}
+    .b-warn{background:rgba(245,158,11,.14);color:#fde68a;border:1px solid rgba(245,158,11,.22)}
+    .b-bad{background:rgba(239,68,68,.14);color:#fecaca;border:1px solid rgba(239,68,68,.22)}
+    .b-info{background:rgba(56,189,248,.14);color:#bae6fd;border:1px solid rgba(56,189,248,.22)}
+    .list{display:grid;gap:10px}
+    .item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px}
+    .item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+    .item h4{margin:0 0 6px;font-size:1rem}
+    .item small,.item .meta{color:var(--muted)}
+    .empty{padding:18px;border:1px dashed rgba(255,255,255,.1);border-radius:16px;text-align:center;color:var(--muted)}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .table{width:100%;border-collapse:collapse}
+    .table th,.table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;font-size:.95rem}
+    .table th{color:var(--muted);font-weight:700}
+    .chart{width:100%;height:220px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:8px}
+    canvas{width:100%;height:100%}
+    .navchips{display:flex;gap:10px;overflow:auto;padding-bottom:4px}
+    .navchips a{white-space:nowrap}
+    .footer{margin-top:18px;color:var(--muted);text-align:center;font-size:.92rem}
+    .inline{display:flex;gap:10px;flex-wrap:wrap}
+    .right{margin-left:auto}
+    .tiny{font-size:.86rem}
+    .divider{height:1px;background:rgba(255,255,255,.08);margin:14px 0}
+    .strong{font-weight:800}
+    .quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .section-anchor{scroll-margin-top:88px}
+
+    @media (max-width: 980px){
+      .hero,.grid-2,.grid-3,.grid-4,.stats,.kpis,.quick-actions{grid-template-columns:1fr}
+      .topbar-inner{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <h1>Motoboy Pro Turbo • Fazer YS 150</h1>
+        <p>Painel completo de ganhos, corridas, combustível, óleo, manutenção, gastos e alertas internos.</p>
+      </div>
+      <div class="inline">
+        <button id="exportBtn">Exportar backup</button>
+        <label class="button-file" for="importInput">Importar backup</label>
+        <input id="importInput" type="file" accept="application/json" hidden>
+      </div>
+      <div class="navchips" style="width:100%">
+        <a class="pill" href="#dashboard">Dashboard</a>
+        <a class="pill" href="#trabalho">Trabalho</a>
+        <a class="pill" href="#analisador">Analisador</a>
+        <a class="pill" href="#combustivel">Combustível</a>
+        <a class="pill" href="#oleo">Óleo</a>
+        <a class="pill" href="#manutencao">Manutenção</a>
+        <a class="pill" href="#gastos">Gastos</a>
+        <a class="pill" href="#relatorios">Relatórios</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <section id="dashboard" class="row hero section-anchor">
+      <div class="card">
+        <div class="inline" style="align-items:flex-start">
+          <div>
+            <div class="badge b-info" id="supportBadge">Alertas internos sempre ativos</div>
+            <div class="big">Seu negócio em uma tela</div>
+            <p class="muted">Essa versão foi feita para uso pesado de entrega no iPhone, com campos grandes e tudo salvo no navegador.</p>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span>Ganhos totais</span><strong id="statGains">R$ 0,00</strong></div>
+          <div class="stat"><span>Lucro líquido</span><strong id="statProfit">R$ 0,00</strong></div>
+          <div class="stat"><span>Custo por km</span><strong id="statCostKm">R$ 0,00</strong></div>
+          <div class="stat"><span>Km de trabalho</span><strong id="statWorkKm">0 km</strong></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>Combustível</span><strong id="statFuel">R$ 0,00</strong></div>
+          <div class="stat"><span>Óleo + manutenção</span><strong id="statMaintenance">R$ 0,00</strong></div>
+          <div class="stat"><span>Peças / gastos</span><strong id="statExpenses">R$ 0,00</strong></div>
+          <div class="stat"><span>Alertas ativos</span><strong id="statAlerts">0</strong></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="quick-actions">
+          <a class="pill primary" href="#trabalho">+ Corrida</a>
+          <a class="pill success" href="#combustivel">+ Abastecimento</a>
+          <a class="pill warn" href="#gastos">+ Gasto</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Configuração rápida</h2>
+        <form id="profileForm">
+          <label>Modelo
+            <input id="bikeModel" type="text" placeholder="Yamaha Fazer YS 150">
+          </label>
+          <label>KM atual da moto
+            <input id="currentKm" type="number" inputmode="numeric" min="0" placeholder="Ex.: 35240">
+          </label>
+          <label>Óleo padrão
+            <input id="defaultOil" type="text" value="Motul 7100 10W50">
+          </label>
+          <button class="primary" type="submit">Salvar perfil</button>
+        </form>
+        <div class="divider"></div>
+        <div id="alertsBox" class="list"></div>
+      </div>
+    </section>
+
+    <section id="trabalho" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Registrar corrida</h2>
+        <form id="deliveryForm">
+          <label>Data
+            <input name="date" type="date" required>
+          </label>
+          <label>App
+            <select name="app">
+              <option>iFood</option>
+              <option>Uber</option>
+              <option>99</option>
+              <option>Rappi</option>
+              <option>Outro</option>
+            </select>
+          </label>
+          <label>Valor ganho
+            <input name="value" type="number" step="0.01" min="0" required placeholder="Ex.: 14.50">
+          </label>
+          <label>KM da corrida
+            <input name="km" type="number" step="0.1" min="0" required placeholder="Ex.: 7.8">
+          </label>
+          <label>Observação (opcional)
+            <input name="notes" type="text" placeholder="Ex.: corrida boa, sem fila">
+          </label>
+          <button class="primary" type="submit">Salvar corrida</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="item-top"><h2 class="section-title">Resumo semanal</h2><span class="badge b-good" id="weekBadge">Últimos 7 dias</span></div>
+        <div class="kpis">
+          <div class="stat"><span>Ganhou</span><strong id="weekGain">R$ 0,00</strong></div>
+          <div class="stat"><span>Gastou</span><strong id="weekSpent">R$ 0,00</strong></div>
+          <div class="stat"><span>Lucro</span><strong id="weekProfit">R$ 0,00</strong></div>
+        </div>
+        <div class="divider"></div>
+        <h3 style="margin:0 0 10px">Últimas corridas</h3>
+        <div id="deliveryList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="analisador" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Analisador de corrida</h2>
+        <form id="analyzerForm">
+          <label>Valor da corrida
+            <input name="value" type="number" step="0.01" min="0" required placeholder="Ex.: 12.00">
+          </label>
+          <label>KM da corrida
+            <input name="km" type="number" step="0.1" min="0.1" required placeholder="Ex.: 6.5">
+          </label>
+          <button class="primary" type="submit">Analisar agora</button>
+        </form>
+        <div class="divider"></div>
+        <div id="analysisResult" class="empty">Preencha valor e km para o app te dizer se vale a pena.</div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Modo decisão</h2>
+        <div class="list">
+          <div class="item"><div class="item-top"><h4>Seu custo médio por km</h4><strong id="decisionCostKm">R$ 0,25</strong></div><small>Calculado com combustível + óleo + manutenção + gastos ÷ km trabalhados.</small></div>
+          <div class="item"><div class="item-top"><h4>Mínimo sugerido por km</h4><strong id="decisionMinPerKm">R$ 1,60</strong></div><small>Meta saudável pra sobrar dinheiro depois dos custos.</small></div>
+          <div class="item"><div class="item-top"><h4>Preço mínimo dessa corrida</h4><strong id="decisionMinTrip">R$ 0,00</strong></div><small>Atualiza quando você usa o analisador.</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="combustivel" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Registrar abastecimento</h2>
+        <form id="fuelForm">
+          <label>Data
+            <input name="date" type="date" required>
+          </label>
+          <label>Litros
+            <input name="liters" type="number" step="0.01" min="0.01" required placeholder="Ex.: 6.30">
+          </label>
+          <label>Valor total
+            <input name="total" type="number" step="0.01" min="0" required placeholder="Ex.: 38.50">
+          </label>
+          <label>KM atual
+            <input name="km" type="number" step="0.1" min="0" required placeholder="Ex.: 35240">
+          </label>
+          <label>Observação
+            <input name="notes" type="text" placeholder="Ex.: gasolina comum, aditivada...">
+          </label>
+          <button class="success" type="submit">Salvar abastecimento</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Consumo e custo</h2>
+        <div class="kpis">
+          <div class="stat"><span>Total gasto</span><strong id="fuelTotalSpent">R$ 0,00</strong></div>
+          <div class="stat"><span>Litros</span><strong id="fuelTotalLiters">0,00 L</strong></div>
+          <div class="stat"><span>Preço/litro</span><strong id="fuelLastPrice">R$ 0,00</strong></div>
+        </div>
+        <div class="stats" style="grid-template-columns:1fr 1fr; margin-top:12px">
+          <div class="stat"><span>Consumo médio</span><strong id="fuelAvgKml">0,0 km/L</strong></div>
+          <div class="stat"><span>Autonomia estimada (10 L)</span><strong id="fuelRange">0 km</strong></div>
+        </div>
+        <div class="divider"></div>
+        <h3 style="margin:0 0 10px">Histórico</h3>
+        <div id="fuelList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="oleo" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <div class="item-top"><h2 class="section-title">Troca de óleo</h2><span class="badge b-info" id="oilNameBadge">Motul 7100 10W50</span></div>
+        <form id="oilForm">
+          <label>Data da troca
+            <input name="date" type="date" required>
+          </label>
+          <label>KM da troca
+            <input name="km" type="number" step="0.1" min="0" required placeholder="Ex.: 35240">
+          </label>
+          <label>Valor do óleo
+            <input name="oilCost" type="number" step="0.01" min="0" required placeholder="Ex.: 78.90">
+          </label>
+          <label>Valor do filtro / mão de obra
+            <input name="extraCost" type="number" step="0.01" min="0" placeholder="Ex.: 25.00">
+          </label>
+          <label>Observação
+            <input name="notes" type="text" placeholder="Ex.: troquei peneira / filtro junto">
+          </label>
+          <button class="warn" type="submit">Salvar troca de óleo</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Status do óleo</h2>
+        <div class="list">
+          <div class="item"><div class="item-top"><h4>Próxima troca recomendada</h4><strong id="oilNextKm">—</strong></div><small>Base: 1.500 km para uso pesado em entrega.</small></div>
+          <div class="item"><div class="item-top"><h4>Limite máximo</h4><strong id="oilMaxKm">—</strong></div><small>Não passar de 2.000 km.</small></div>
+          <div class="item"><div class="item-top"><h4>Status atual</h4><span id="oilStatusBadge" class="badge b-good">Sem alerta</span></div><small id="oilStatusText">Cadastre uma troca para começar a acompanhar.</small></div>
+        </div>
+        <div class="divider"></div>
+        <h3 style="margin:0 0 10px">Histórico</h3>
+        <div id="oilList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="manutencao" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Registrar manutenção</h2>
+        <form id="maintenanceForm">
+          <label>Tipo de manutenção
+            <select name="presetId" id="maintenancePreset"></select>
+          </label>
+          <label>Título manual (só usa se escolher “Outro”)
+            <input name="customTitle" type="text" placeholder="Ex.: rolamento de roda">
+          </label>
+          <label>Data
+            <input name="date" type="date" required>
+          </label>
+          <label>KM
+            <input name="km" type="number" step="0.1" min="0" required placeholder="Ex.: 35240">
+          </label>
+          <label>Custo total
+            <input name="cost" type="number" step="0.01" min="0" placeholder="Ex.: 90.00">
+          </label>
+          <label>Observação
+            <input name="notes" type="text" placeholder="Ex.: pastilha dianteira nova">
+          </label>
+          <button class="primary" type="submit">Salvar manutenção</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="item-top"><h2 class="section-title">Agenda inteligente</h2><span class="badge b-info">Base Fazer YS 150 entrega</span></div>
+        <div id="maintenanceStatusList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="gastos" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Cadastrar peça / gasto</h2>
+        <form id="expenseForm">
+          <label>Nome da peça / serviço
+            <input name="name" type="text" required placeholder="Ex.: pastilha de freio">
+          </label>
+          <label>Categoria
+            <select name="category">
+              <option>Peça</option>
+              <option>Serviço</option>
+              <option>Emergência</option>
+              <option>Pneu</option>
+              <option>Documento</option>
+              <option>Seguro</option>
+              <option>Outro</option>
+            </select>
+          </label>
+          <label>Preço unitário
+            <input name="unitPrice" type="number" step="0.01" min="0" required placeholder="Ex.: 45.90">
+          </label>
+          <label>Quantidade
+            <input name="qty" type="number" step="1" min="1" value="1" required>
+          </label>
+          <label>KM no momento
+            <input name="km" type="number" step="0.1" min="0" placeholder="Ex.: 35240">
+          </label>
+          <label>Data
+            <input name="date" type="date" required>
+          </label>
+          <label>Descrição
+            <textarea name="notes" placeholder="Ex.: comprada pra próxima revisão"></textarea>
+          </label>
+          <button class="primary" type="submit">Adicionar gasto</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Resumo de gastos</h2>
+        <div class="kpis">
+          <div class="stat"><span>Total peças/gastos</span><strong id="expenseTotal">R$ 0,00</strong></div>
+          <div class="stat"><span>Serviços</span><strong id="expenseService">R$ 0,00</strong></div>
+          <div class="stat"><span>Emergências</span><strong id="expenseEmergency">R$ 0,00</strong></div>
+        </div>
+        <div class="divider"></div>
+        <h3 style="margin:0 0 10px">Lista</h3>
+        <div id="expenseList" class="list"></div>
+      </div>
+    </section>
+
+    <section id="relatorios" class="row grid-2 section-anchor" style="margin-top:14px">
+      <div class="card">
+        <h2 class="section-title">Ranking dos apps</h2>
+        <div id="appsRanking"></div>
+        <div class="divider"></div>
+        <h3 style="margin:0 0 10px">Ganhos x gastos (7 dias)</h3>
+        <div class="chart"><canvas id="weekChart" width="600" height="220"></canvas></div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Gastos por categoria</h2>
+        <div class="chart"><canvas id="catChart" width="600" height="220"></canvas></div>
+        <div class="divider"></div>
+        <div class="item"><div class="item-top"><h4>Melhor próximo passo</h4><strong id="bestAction">Cadastre seus dados</strong></div><small id="bestActionSub">O app vai começar a te orientar automaticamente.</small></div>
+      </div>
+    </section>
+
+    <p class="footer">Feito para uso pesado de entrega • dados salvos no navegador do aparelho • se instalar na tela inicial fica com cara de app.</p>
+  </div>
+
+<script>
+(() => {
+  const STORAGE_KEY = 'motoboy_pro_turbo_absurdo_v1';
+  const PRESETS = [
+    { id:'corrente', title:'Lubrificação da corrente', category:'Transmissão', kmInterval:300, dayInterval:3 },
+    { id:'pneus', title:'Calibragem dos pneus', category:'Pneus', dayInterval:7 },
+    { id:'filtro_ar', title:'Filtro de ar', category:'Motor', kmInterval:2500 },
+    { id:'vela', title:'Vela de ignição', category:'Motor', kmInterval:5000 },
+    { id:'relacao', title:'Kit relação', category:'Transmissão', kmInterval:15000 },
+    { id:'freios', title:'Pastilhas / lonas de freio', category:'Freios', kmInterval:2000 },
+    { id:'fluido', title:'Fluido de freio', category:'Freios', kmInterval:10000, dayInterval:365 },
+    { id:'checkup', title:'Check-up geral', category:'Revisão', kmInterval:5000, dayInterval:90 },
+    { id:'outro', title:'Outro', category:'Outro' }
+  ];
+
+  const defaults = {
+    profile: { bikeModel:'Yamaha Fazer YS 150', currentKm:'', defaultOil:'Motul 7100 10W50' },
+    deliveries: [],
+    fuel: [],
+    oil: [],
+    maintenance: [],
+    expenses: []
+  };
+
+  const $ = (s) => document.querySelector(s);
+  const today = () => new Date().toISOString().slice(0,10);
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  const num = (v) => Number(v || 0);
+  const money = (v) => num(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const dateBR = (v) => v ? v.split('-').reverse().join('/') : '—';
+  const clone = (obj) => JSON.parse(JSON.stringify(obj));
+
+  function load() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return migrateLegacy() || clone(defaults);
+  }
+
+  function migrateLegacy(){
+    let data = clone(defaults);
+    let changed = false;
+    try {
+      const old = localStorage.getItem('fazer_ys150_controle');
+      if (old) {
+        const parsed = JSON.parse(old);
+        if (parsed?.profile) {
+          data.profile.bikeModel = parsed.profile.bikeModel || data.profile.bikeModel;
+          data.profile.currentKm = parsed.profile.currentKm || '';
+          changed = true;
+        }
+        if (Array.isArray(parsed?.parts)) {
+          data.expenses = parsed.parts.map(p => ({
+            id: uid(),
+            name: p.name || 'Item migrado',
+            category: p.category || 'Peça',
+            unitPrice: num(p.price),
+            qty: num(p.quantity) || 1,
+            km: '',
+            date: p.date || today(),
+            notes: p.details || 'Migrado da versão antiga'
+          }));
+          changed = true;
+        }
+        if (Array.isArray(parsed?.maintenance)) {
+          parsed.maintenance.forEach(m => {
+            const title = m.title || 'Manutenção migrada';
+            if (/óleo/i.test(title)) {
+              data.oil.push({
+                id: uid(),
+                date: m.lastDate || today(),
+                km: num(m.lastKm),
+                oilCost: num(m.cost),
+                extraCost: 0,
+                notes: m.notes || 'Migrado da versão antiga'
+              });
+            } else {
+              data.maintenance.push({
+                id: uid(),
+                presetId: PRESETS.find(p => title.toLowerCase().includes(p.title.toLowerCase().split(' ')[0]))?.id || 'outro',
+                title,
+                date: m.lastDate || today(),
+                km: num(m.lastKm),
+                cost: num(m.cost),
+                notes: m.notes || 'Migrado da versão antiga'
+              });
+            }
+          });
+          changed = true;
+        }
+      }
+    } catch(e) {}
+    return changed ? data : null;
+  }
+
+  let state = load();
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+  }
+
+  function setDefaultDates() {
+    ['deliveryForm','fuelForm','oilForm','maintenanceForm'].forEach(id => {
+      const form = document.getElementById(id);
+      const dateInput = form?.querySelector('input[type="date"]');
+      if (dateInput && !dateInput.value) dateInput.value = today();
+    });
+    const expDate = document.querySelector('#expenseForm input[name="date"]');
+    if (expDate && !expDate.value) expDate.value = today();
+  }
+
+  function sortDescByDate(a,b){
+    return (b.date || '').localeCompare(a.date || '') || num(b.km) - num(a.km);
+  }
+
+  function total(arr, fn) { return arr.reduce((sum, item) => sum + fn(item), 0); }
+  function totalExpenseItem(item){ return num(item.unitPrice) * (num(item.qty)||1); }
+  function oilTotal(item){ return num(item.oilCost) + num(item.extraCost); }
+  function latest(list){ return [...list].sort(sortDescByDate)[0] || null; }
+
+  function getCurrentKm(){ return num(state.profile.currentKm); }
+  function getTotalGains(){ return total(state.deliveries, x => num(x.value)); }
+  function getFuelSpent(){ return total(state.fuel, x => num(x.total)); }
+  function getOilSpent(){ return total(state.oil, oilTotal); }
+  function getMaintenanceSpent(){ return total(state.maintenance, x => num(x.cost)); }
+  function getExpensesSpent(){ return total(state.expenses, totalExpenseItem); }
+  function getTotalSpent(){ return getFuelSpent() + getOilSpent() + getMaintenanceSpent() + getExpensesSpent(); }
+  function getWorkKm(){ return total(state.deliveries, x => num(x.km)); }
+  function getProfit(){ return getTotalGains() - getTotalSpent(); }
+  function getCostPerKm(){
+    const workKm = getWorkKm();
+    return workKm > 0 ? getTotalSpent() / workKm : 0.25;
+  }
+
+  function startOfNDaysAgo(days){
+    const d = new Date();
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate() - days);
+    return d;
+  }
+  function isInLastDays(dateStr, days){
+    if (!dateStr) return false;
+    const d = new Date(dateStr + 'T00:00:00');
+    return d >= startOfNDaysAgo(days);
+  }
+  function getWeekSummary(){
+    const gain = total(state.deliveries.filter(x => isInLastDays(x.date, 6)), x => num(x.value));
+    const spent = total(state.fuel.filter(x => isInLastDays(x.date, 6)), x => num(x.total)) +
+      total(state.oil.filter(x => isInLastDays(x.date, 6)), oilTotal) +
+      total(state.maintenance.filter(x => isInLastDays(x.date, 6)), x => num(x.cost)) +
+      total(state.expenses.filter(x => isInLastDays(x.date, 6)), totalExpenseItem);
+    return { gain, spent, profit: gain - spent };
+  }
+
+  function getFuelMetrics(){
+    const items = [...state.fuel].sort((a,b) => (a.date || '').localeCompare(b.date || '') || num(a.km)-num(b.km));
+    const totalLiters = total(items, x => num(x.liters));
+    const totalSpent = total(items, x => num(x.total));
+    const last = items[items.length-1] || null;
+    let sumKml = 0, countKml = 0;
+    for (let i=1;i<items.length;i++) {
+      const kmDiff = num(items[i].km) - num(items[i-1].km);
+      const liters = num(items[i].liters);
+      if (kmDiff > 0 && liters > 0) {
+        sumKml += kmDiff / liters;
+        countKml++;
+      }
+    }
+    const avgKml = countKml ? sumKml / countKml : 0;
+    return {
+      totalLiters,
+      totalSpent,
+      lastPrice: last ? num(last.total) / Math.max(num(last.liters),1) : 0,
+      avgKml,
+      range: avgKml * 10
+    };
+  }
+
+  function daysDiffFromToday(dateStr){
+    if (!dateStr) return null;
+    const todayD = new Date();
+    todayD.setHours(0,0,0,0);
+    const target = new Date(dateStr + 'T00:00:00');
+    return Math.ceil((target - todayD) / 86400000);
+  }
+  function addDays(dateStr, days){
+    if (!dateStr) return '';
+    const d = new Date(dateStr + 'T00:00:00');
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0,10);
+  }
+
+  function getOilStatus(){
+    const entry = latest(state.oil);
+    if (!entry) return null;
+    const currentKm = getCurrentKm();
+    const nextKm = num(entry.km) + 1500;
+    const maxKm = num(entry.km) + 2000;
+    const kmLeft = nextKm - currentKm;
+    let level = 'good';
+    let text = 'Óleo em dia.';
+    if (currentKm >= maxKm) { level = 'bad'; text = 'Passou do limite máximo, troque urgente.'; }
+    else if (currentKm >= nextKm) { level = 'warn'; text = 'Hora de trocar o óleo agora.'; }
+    else if (kmLeft <= 250) { level = 'warn'; text = `Faltam ${Math.max(0,Math.round(kmLeft))} km para a troca.`; }
+    return { entry, nextKm, maxKm, kmLeft, level, text };
+  }
+
+  function latestMaintenanceForPreset(id){
+    if (id === 'oleo_motor') return latest(state.oil);
+    return latest(state.maintenance.filter(m => m.presetId === id));
+  }
+
+  function computePresetStatus(preset){
+    const latestDone = latestMaintenanceForPreset(preset.id);
+    if (!latestDone) return { level:'info', label:'Sem registro', text:'Ainda não foi registrado.', nextKm:'—', nextDate:'—' };
+    const currentKm = getCurrentKm();
+    const nextKm = preset.kmInterval ? num(latestDone.km) + preset.kmInterval : null;
+    const nextDate = preset.dayInterval ? addDays(latestDone.date, preset.dayInterval) : '';
+    const kmLeft = nextKm !== null ? nextKm - currentKm : null;
+    const daysLeft = nextDate ? daysDiffFromToday(nextDate) : null;
+    let level='good', label='Em dia';
+    if ((kmLeft !== null && kmLeft <= 0) || (daysLeft !== null && daysLeft <= 0)) { level='bad'; label='Vencido'; }
+    else if ((kmLeft !== null && kmLeft <= Math.max(300, preset.kmInterval * 0.15)) || (daysLeft !== null && daysLeft <= Math.max(7, Math.round((preset.dayInterval||7)*0.2)))) { level='warn'; label='Próximo'; }
+    const parts = [];
+    if (nextKm !== null) parts.push(`próx. em ${Math.round(nextKm)} km`);
+    if (nextDate) parts.push(`ou ${dateBR(nextDate)}`);
+    return { level, label, text: parts.join(' • '), nextKm, nextDate, latestDone };
+  }
+
+  function getAlerts(){
+    const alerts = [];
+    const oil = getOilStatus();
+    if (oil) {
+      if (oil.level === 'bad') alerts.push({ level:'bad', title:'Troca de óleo urgente', text:`Você passou do limite. Última troca em ${Math.round(num(oil.entry.km))} km.` });
+      else if (oil.level === 'warn') alerts.push({ level:'warn', title:'Óleo perto da troca', text:oil.text });
+    }
+    PRESETS.filter(p => p.id !== 'outro').forEach(p => {
+      const s = computePresetStatus(p);
+      if (s.level === 'bad' || s.level === 'warn') alerts.push({ level:s.level, title:p.title, text:s.text || s.label });
+    });
+    return alerts.slice(0, 8);
+  }
+
+  function getBestAction(){
+    if (!state.deliveries.length) return ['Registre suas primeiras corridas', 'Sem km rodado e sem ganhos o app ainda não consegue te dar direção forte.'];
+    const alerts = getAlerts();
+    if (alerts.some(a => a.level === 'bad')) return ['Resolver manutenção urgente', 'Tem item vencido. Arruma isso antes de forçar mais a moto.'];
+    const costKm = getCostPerKm();
+    if (costKm > 1) return ['Seu custo por km está alto', 'Revise gastos e veja se está aceitando corrida curta pagando pouco.'];
+    const fuel = getFuelMetrics();
+    if (fuel.avgKml && fuel.avgKml < 30) return ['Consumo baixo', 'Confira calibragem, filtro de ar e estilo de pilotagem.'];
+    return ['Você está no caminho certo', 'Continua registrando tudo. O ganho real aparece quando você acompanha lucro e custo por km.'];
+  }
+
+  function renderProfile(){
+    $('#bikeModel').value = state.profile.bikeModel || '';
+    $('#currentKm').value = state.profile.currentKm || '';
+    $('#defaultOil').value = state.profile.defaultOil || 'Motul 7100 10W50';
+    $('#oilNameBadge').textContent = state.profile.defaultOil || 'Motul 7100 10W50';
+    $('#supportBadge').textContent = ('Notification' in window)
+      ? 'Alertas internos ativos • notificação do navegador depende do iPhone'
+      : 'Alertas internos ativos';
+  }
+
+  function renderDashboard(){
+    $('#statGains').textContent = money(getTotalGains());
+    $('#statProfit').textContent = money(getProfit());
+    $('#statCostKm').textContent = money(getCostPerKm());
+    $('#statWorkKm').textContent = `${getWorkKm().toFixed(1).replace('.',',')} km`;
+    $('#statFuel').textContent = money(getFuelSpent());
+    $('#statMaintenance').textContent = money(getOilSpent() + getMaintenanceSpent());
+    $('#statExpenses').textContent = money(getExpensesSpent());
+    const alerts = getAlerts();
+    $('#statAlerts').textContent = String(alerts.length);
+
+    const alertsBox = $('#alertsBox');
+    if (!alerts.length) {
+      alertsBox.innerHTML = '<div class="empty">Sem alerta no momento. Boa! 👍</div>';
+    } else {
+      alertsBox.innerHTML = alerts.map(a => `
+        <div class="item">
+          <div class="item-top">
+            <h4>${a.title}</h4>
+            <span class="badge ${a.level === 'bad' ? 'b-bad' : 'b-warn'}">${a.level === 'bad' ? 'Urgente' : 'Próximo'}</span>
+          </div>
+          <small>${a.text}</small>
+        </div>
+      `).join('');
+    }
+  }
+
+  function renderDeliveries(){
+    const week = getWeekSummary();
+    $('#weekGain').textContent = money(week.gain);
+    $('#weekSpent').textContent = money(week.spent);
+    $('#weekProfit').textContent = money(week.profit);
+    const list = $('#deliveryList');
+    const items = [...state.deliveries].sort(sortDescByDate).slice(0, 10);
+    if (!items.length) {
+      list.innerHTML = '<div class="empty">Nenhuma corrida registrada ainda.</div>';
+      return;
+    }
+    list.innerHTML = items.map(item => `
+      <div class="item">
+        <div class="item-top">
+          <div>
+            <h4>${item.app} • ${money(item.value)}</h4>
+            <div class="meta">${dateBR(item.date)} • ${num(item.km).toFixed(1).replace('.',',')} km</div>
+          </div>
+          <span class="badge b-info">${money(num(item.value) / Math.max(num(item.km),1))}/km</span>
+        </div>
+        ${item.notes ? `<small>${item.notes}</small>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderFuel(){
+    const m = getFuelMetrics();
+    $('#fuelTotalSpent').textContent = money(m.totalSpent);
+    $('#fuelTotalLiters').textContent = `${m.totalLiters.toFixed(2).replace('.',',')} L`;
+    $('#fuelLastPrice').textContent = money(m.lastPrice);
+    $('#fuelAvgKml').textContent = `${m.avgKml.toFixed(1).replace('.',',')} km/L`;
+    $('#fuelRange').textContent = `${m.range.toFixed(0)} km`;
+    const list = $('#fuelList');
+    const items = [...state.fuel].sort(sortDescByDate).slice(0, 10);
+    if (!items.length) {
+      list.innerHTML = '<div class="empty">Nenhum abastecimento registrado.</div>';
+      return;
+    }
+    list.innerHTML = items.map(item => `
+      <div class="item">
+        <div class="item-top">
+          <div>
+            <h4>${money(item.total)} • ${num(item.liters).toFixed(2).replace('.',',')} L</h4>
+            <div class="meta">${dateBR(item.date)} • KM ${Math.round(num(item.km))}</div>
+          </div>
+          <span class="badge b-info">${money(num(item.total)/Math.max(num(item.liters),1))}/L</span>
+        </div>
+        ${item.notes ? `<small>${item.notes}</small>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderOil(){
+    const oil = getOilStatus();
+    $('#oilNextKm').textContent = oil ? `${Math.round(oil.nextKm)} km` : '—';
+    $('#oilMaxKm').textContent = oil ? `${Math.round(oil.maxKm)} km` : '—';
+    const badge = $('#oilStatusBadge');
+    const text = $('#oilStatusText');
+    if (!oil) {
+      badge.className = 'badge b-info';
+      badge.textContent = 'Sem registro';
+      text.textContent = 'Cadastre a última troca de óleo.';
+    } else {
+      badge.className = 'badge ' + (oil.level === 'bad' ? 'b-bad' : oil.level === 'warn' ? 'b-warn' : 'b-good');
+      badge.textContent = oil.level === 'bad' ? 'Urgente' : oil.level === 'warn' ? 'Próximo' : 'Em dia';
+      text.textContent = oil.text;
+    }
+    const list = $('#oilList');
+    const items = [...state.oil].sort(sortDescByDate).slice(0, 10);
+    if (!items.length) {
+      list.innerHTML = '<div class="empty">Nenhuma troca de óleo registrada.</div>';
+      return;
+    }
+    list.innerHTML = items.map(item => `
+      <div class="item">
+        <div class="item-top">
+          <div>
+            <h4>${dateBR(item.date)} • KM ${Math.round(num(item.km))}</h4>
+            <div class="meta">${state.profile.defaultOil || 'Motul 7100 10W50'}</div>
+          </div>
+          <span class="badge b-info">${money(oilTotal(item))}</span>
+        </div>
+        ${item.notes ? `<small>${item.notes}</small>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderMaintenance(){
+    const statusList = $('#maintenanceStatusList');
+    const items = PRESETS.filter(p => p.id !== 'outro').map(p => ({ preset:p, status:computePresetStatus(p) }));
+    statusList.innerHTML = items.map(({preset,status}) => `
+      <div class="item">
+        <div class="item-top">
+          <div>
+            <h4>${preset.title}</h4>
+            <div class="meta">${status.latestDone ? `último: ${dateBR(status.latestDone.date)} • ${Math.round(num(status.latestDone.km))} km` : 'sem registro'}</div>
+          </div>
+          <span class="badge ${status.level === 'bad' ? 'b-bad' : status.level === 'warn' ? 'b-warn' : status.level === 'good' ? 'b-good' : 'b-info'}">${status.label}</span>
+        </div>
+        <small>${status.text || 'Cadastre para começar.'}</small>
+      </div>
+    `).join('');
+  }
+
+  function renderExpenses(){
+    $('#expenseTotal').textContent = money(getExpensesSpent());
+    $('#expenseService').textContent = money(total(state.expenses.filter(x => x.category === 'Serviço'), totalExpenseItem));
+    $('#expenseEmergency').textContent = money(total(state.expenses.filter(x => x.category === 'Emergência'), totalExpenseItem));
+    const list = $('#expenseList');
+    const items = [...state.expenses].sort(sortDescByDate).slice(0, 12);
+    if (!items.length) {
+      list.innerHTML = '<div class="empty">Nenhum gasto cadastrado.</div>';
+      return;
+    }
+    list.innerHTML = items.map(item => `
+      <div class="item">
+        <div class="item-top">
+          <div>
+            <h4>${item.name}</h4>
+            <div class="meta">${item.category} • ${dateBR(item.date)} ${item.km ? `• KM ${Math.round(num(item.km))}` : ''}</div>
+          </div>
+          <span class="badge b-info">${money(totalExpenseItem(item))}</span>
+        </div>
+        ${item.notes ? `<small>${item.notes}</small>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderRanking(){
+    const grouped = {};
+    state.deliveries.forEach(d => {
+      grouped[d.app] ||= { app:d.app, count:0, total:0, km:0 };
+      grouped[d.app].count++;
+      grouped[d.app].total += num(d.value);
+      grouped[d.app].km += num(d.km);
+    });
+    const arr = Object.values(grouped).sort((a,b) => (b.total / Math.max(b.km,1)) - (a.total / Math.max(a.km,1)));
+    const box = $('#appsRanking');
+    if (!arr.length) {
+      box.innerHTML = '<div class="empty">Cadastre corridas para montar o ranking.</div>';
+      return;
+    }
+    box.innerHTML = `
+      <table class="table">
+        <thead><tr><th>App</th><th>Corridas</th><th>Total</th><th>R$/km</th></tr></thead>
+        <tbody>
+          ${arr.map(x => `<tr><td>${x.app}</td><td>${x.count}</td><td>${money(x.total)}</td><td>${money(x.total / Math.max(x.km,1))}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  function drawBarChart(canvas, labels, values, colorA, colorB, prefix='R$ '){
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth = canvas.clientWidth || 600;
+    const cssHeight = canvas.clientHeight || 220;
+    canvas.width = cssWidth * dpr;
+    canvas.height = cssHeight * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,cssWidth,cssHeight);
+    ctx.fillStyle = 'rgba(255,255,255,.06)';
+    ctx.fillRect(0,0,cssWidth,cssHeight);
+    const max = Math.max(...values, 1);
+    const left = 36, bottom = 30, top = 16;
+    const width = cssWidth - left - 12;
+    const height = cssHeight - top - bottom;
+    const barW = width / Math.max(labels.length,1) * 0.62;
+    ctx.font = '12px Arial';
+    ctx.fillStyle = '#9fb0d3';
+    labels.forEach((label, i) => {
+      const x = left + i * (width / labels.length) + ((width / labels.length)-barW)/2;
+      const barH = (values[i] / max) * (height - 10);
+      const y = top + (height - barH);
+      const grad = ctx.createLinearGradient(x, y, x, y + barH);
+      grad.addColorStop(0, colorA);
+      grad.addColorStop(1, colorB);
+      ctx.fillStyle = grad;
+      ctx.fillRect(x, y, barW, barH);
+      ctx.fillStyle = '#eef2ff';
+      const v = values[i];
+      const valueLabel = prefix ? `${prefix}${v.toFixed(0)}` : `${v.toFixed(0)}`;
+      ctx.fillText(valueLabel, x, Math.max(12, y - 6));
+      ctx.fillStyle = '#9fb0d3';
+      ctx.fillText(label, x, cssHeight - 10);
+    });
+  }
+
+  function renderCharts(){
+    const labels = [];
+    const gains = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const iso = d.toISOString().slice(0,10);
+      labels.push(iso.slice(8,10) + '/' + iso.slice(5,7));
+      gains.push(total(state.deliveries.filter(x => x.date === iso), x => num(x.value)) -
+        total(state.fuel.filter(x => x.date === iso), x => num(x.total)) -
+        total(state.oil.filter(x => x.date === iso), oilTotal) -
+        total(state.maintenance.filter(x => x.date === iso), x => num(x.cost)) -
+        total(state.expenses.filter(x => x.date === iso), totalExpenseItem)
+      );
+    }
+    drawBarChart(document.getElementById('weekChart'), labels, gains.map(v => Math.max(v,0)), '#38bdf8', '#8b5cf6', 'R$ ');
+
+    const catMap = {};
+    state.expenses.forEach(x => { catMap[x.category] = (catMap[x.category] || 0) + totalExpenseItem(x); });
+    const catLabels = Object.keys(catMap).slice(0,7);
+    const catValues = catLabels.map(k => catMap[k]);
+    drawBarChart(document.getElementById('catChart'), catLabels.length ? catLabels : ['Sem dados'], catValues.length ? catValues : [0], '#22c55e', '#16a34a', 'R$ ');
+  }
+
+  function renderBestAction(){
+    const [title, sub] = getBestAction();
+    $('#bestAction').textContent = title;
+    $('#bestActionSub').textContent = sub;
+  }
+
+  function renderAnalyzerDefaults(){
+    const cpk = getCostPerKm();
+    const healthy = Math.max(1.6, cpk * 3);
+    $('#decisionCostKm').textContent = money(cpk);
+    $('#decisionMinPerKm').textContent = money(healthy);
+  }
+
+  function render(){
+    renderProfile();
+    renderDashboard();
+    renderDeliveries();
+    renderFuel();
+    renderOil();
+    renderMaintenance();
+    renderExpenses();
+    renderRanking();
+    renderCharts();
+    renderBestAction();
+    renderAnalyzerDefaults();
+  }
+
+  function analyzeTrip(value, km){
+    const costKm = getCostPerKm();
+    const healthyPerKm = Math.max(1.6, costKm * 3);
+    const tripPerKm = value / Math.max(km, 0.1);
+    const minTrip = healthyPerKm * km;
+    $('#decisionMinTrip').textContent = money(minTrip);
+
+    let badgeClass = 'b-good';
+    let title = 'Vale a pena ✅';
+    let text = `Essa corrida está pagando ${money(tripPerKm)} por km.`;
+    if (tripPerKm < costKm * 1.5) {
+      badgeClass = 'b-bad';
+      title = 'Prejuízo ou quase isso ❌';
+      text = `Muito apertada. Seu custo médio está em ${money(costKm)} por km.`;
+    } else if (tripPerKm < healthyPerKm) {
+      badgeClass = 'b-warn';
+      title = 'Dá pra pensar ⚠️';
+      text = `Não está horrível, mas abaixo da meta saudável de ${money(healthyPerKm)} por km.`;
+    }
+    $('#analysisResult').innerHTML = `
+      <div class="item">
+        <div class="item-top">
+          <h4>${title}</h4>
+          <span class="badge ${badgeClass}">${money(tripPerKm)}/km</span>
+        </div>
+        <small>${text}<br>Preço mínimo sugerido para essa corrida: <span class="strong">${money(minTrip)}</span>.</small>
+      </div>
+    `;
+  }
+
+  function bindForms(){
+    $('#profileForm').addEventListener('submit', e => {
+      e.preventDefault();
+      state.profile.bikeModel = $('#bikeModel').value.trim() || 'Yamaha Fazer YS 150';
+      state.profile.currentKm = $('#currentKm').value;
+      state.profile.defaultOil = $('#defaultOil').value.trim() || 'Motul 7100 10W50';
+      save();
+      alert('Perfil salvo.');
+    });
+
+    $('#deliveryForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      state.deliveries.unshift({
+        id: uid(),
+        date: fd.get('date'),
+        app: fd.get('app'),
+        value: num(fd.get('value')),
+        km: num(fd.get('km')),
+        notes: (fd.get('notes') || '').toString().trim()
+      });
+      save();
+      e.target.reset();
+      e.target.querySelector('input[type="date"]').value = today();
+    });
+
+    $('#analyzerForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      analyzeTrip(num(fd.get('value')), Math.max(num(fd.get('km')), 0.1));
+    });
+
+    $('#fuelForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const item = {
+        id: uid(),
+        date: fd.get('date'),
+        liters: num(fd.get('liters')),
+        total: num(fd.get('total')),
+        km: num(fd.get('km')),
+        notes: (fd.get('notes') || '').toString().trim()
+      };
+      state.fuel.unshift(item);
+      if (item.km > 0) state.profile.currentKm = item.km;
+      save();
+      e.target.reset();
+      e.target.querySelector('input[type="date"]').value = today();
+    });
+
+    $('#oilForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const item = {
+        id: uid(),
+        date: fd.get('date'),
+        km: num(fd.get('km')),
+        oilCost: num(fd.get('oilCost')),
+        extraCost: num(fd.get('extraCost')),
+        notes: (fd.get('notes') || '').toString().trim()
+      };
+      state.oil.unshift(item);
+      if (item.km > 0) state.profile.currentKm = item.km;
+      save();
+      e.target.reset();
+      e.target.querySelector('input[type="date"]').value = today();
+    });
+
+    $('#maintenanceForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const presetId = fd.get('presetId');
+      const preset = PRESETS.find(p => p.id === presetId);
+      const title = presetId === 'outro'
+        ? ((fd.get('customTitle') || '').toString().trim() || 'Manutenção personalizada')
+        : preset.title;
+      const item = {
+        id: uid(),
+        presetId,
+        title,
+        date: fd.get('date'),
+        km: num(fd.get('km')),
+        cost: num(fd.get('cost')),
+        notes: (fd.get('notes') || '').toString().trim()
+      };
+      state.maintenance.unshift(item);
+      if (item.km > 0) state.profile.currentKm = item.km;
+      save();
+      e.target.reset();
+      e.target.querySelector('input[type="date"]').value = today();
+      $('#maintenancePreset').value = 'corrente';
+    });
+
+    $('#expenseForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const item = {
+        id: uid(),
+        name: (fd.get('name') || '').toString().trim(),
+        category: fd.get('category'),
+        unitPrice: num(fd.get('unitPrice')),
+        qty: Math.max(num(fd.get('qty')), 1),
+        km: fd.get('km') ? num(fd.get('km')) : '',
+        date: fd.get('date'),
+        notes: (fd.get('notes') || '').toString().trim()
+      };
+      state.expenses.unshift(item);
+      save();
+      e.target.reset();
+      e.target.querySelector('input[type="date"]').value = today();
+    });
+  }
+
+  function bindBackup(){
+    $('#exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'motoboy-pro-turbo-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    $('#importInput').addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        state = { ...clone(defaults), ...parsed };
+        save();
+        alert('Backup importado com sucesso.');
+      } catch {
+        alert('Não consegui importar esse arquivo.');
+      }
+      e.target.value = '';
+    });
+  }
+
+  function initPresetSelect(){
+    const select = $('#maintenancePreset');
+    select.innerHTML = PRESETS.map(p => `<option value="${p.id}">${p.title}</option>`).join('');
+    select.value = 'corrente';
+  }
+
+  initPresetSelect();
+  bindForms();
+  bindBackup();
+  setDefaultDates();
+  render();
+})();
+</script>
+</body>
+</html>
